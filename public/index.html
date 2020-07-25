@@ -7,12 +7,11 @@
 
     <title>Music Visualization</title>
   </head>
-  <body onload="init()">
-    
+  <body>
     <div>
       <audio id="audio" type="audio/mp3"></audio>
-      <button onclick="start()">Start</button>
-      <button onclick="stop()">Stop</button>
+      <button id="start">Start</button>
+      <button id="pause">Pause</button>
     </div>
     <div>
       <canvas id="canvas" width="1024" height="350"></canvas>

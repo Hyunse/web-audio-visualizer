@@ -1,78 +1,110 @@
-let audio, ctx, audioSrc, analyser, source, bufferLength, dataArray, drawVisual;
-const WIDTH = 1024;
-const HEIGHT = 350;
-const BAR_NUM = 64;
+document.addEventListener('DOMContentLoaded', function () {
+  let audioElement = document.getElementById('audio');
+  let ctx, analyser, dataArray, source, bufferLength, mainCanvas;
 
-function start() {
-  if (ctx.state === 'suspended') {
-    ctx.resume();
-  }
-  audio.volume = 0.3;
-  audio.play();
-
-  draw();
-}
-
-function stop() {
-  audio.pause();
-}
-
-function init() {
-  initAudio();
-  initCanvas();
-}
-
-function initAudio() {
-  // Get Element
-  audio = document.getElementById('audio');
-  audio.src = '/test2.mp3';
-
-  // Get Conetxt & analyser
+  // Get Conetxt & ANALYSER
   ctx = new AudioContext();
   analyser = ctx.createAnalyser();
-  analyser.fftSize = 2048; // Fast Fourier Transform
+  analyser.fftSize = 1024; // Fast Fourier Transform
 
   // Get Data Array
   bufferLength = analyser.frequencyBinCount;
   dataArray = new Uint8Array(bufferLength);
 
   // Source Connect
-  source = ctx.createMediaElementSource(audio);
+  source = ctx.createMediaElementSource(audioElement);
   source.connect(analyser);
   source.connect(ctx.destination);
-}
 
-function initCanvas() {
-  // Get Element & Access Context
-  canvas = document.getElementById('canvas');
-  canvasCtx = canvas.getContext('2d');
-}
+  audio = (function (audio, ctx) {
+    audio.src = '/busan.mp3';
+    audio.volume = 0.3;
 
-function draw() {
-  drawVisual = requestAnimationFrame(draw);
-  analyser.getByteFrequencyData(dataArray);
+    function play() {
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
+      audio.play();
+    }
 
-  canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+    function pause() {
+      audio.pause();
+    }
 
-  // Bar Width, Height, Color
-  let barWidth = 0;
-  let barHeight = 0;
-  canvasCtx.fillStyle = 'rgb(0, 0, 0)';
-  
-  for (let i = 0; i < bufferLength; i++) {
-    barHeight = (dataArray[i] - 128) * 2 + 5;
+    return {
+      play,
+      pause,
+    };
+  })(audioElement, ctx);
 
-    if (barHeight <= 1) barHeight = 2;
+  mainCanvas = (function (dataArray) {
+    let canvas, canvasCtx, drawVisual;
+    const WIDTH = 1024;
+    const HEIGHT = 350;
+    const BAR_NUM = 64;
 
-    // Fill
-    canvasCtx.fillRect(
-      barWidth,
-      HEIGHT - barHeight,
-      WIDTH / BAR_NUM - 2,
-      barHeight
-    );
+    function init() {
+      // Get Element & Access Context
+      canvas = document.getElementById('canvas');
+      canvasCtx = canvas.getContext('2d');
+    }
 
-    // Set Next Bar X position
-    barWidth += WIDTH / BAR_NUM;
-  }
-}
+    function draw() {
+      drawVisual = requestAnimationFrame(draw);
+      analyser.getByteFrequencyData(dataArray);
+
+      canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+      // Bar Width, Height, Color
+      let x = 0;
+      let y = 0;
+      const radius = WIDTH / (2*BAR_NUM);
+      for (let i = 0; i < bufferLength; i++) {
+
+        y = (dataArray[i] - 128) * 2 + 5;
+
+        if (y <= 1) y = 0;
+        
+        // Draw Bottom
+        canvasCtx.beginPath();
+        canvasCtx.fillStyle = 'rgb(255, 159, 67)';
+        canvasCtx.arc(x + radius , HEIGHT - radius, radius, 0, 2*Math.PI, true);
+        canvasCtx.fill();
+
+        // Drawing Arc
+        canvasCtx.beginPath();
+        canvasCtx.fillStyle = 'rgb(255, 159, 67)';
+        canvasCtx.arc(x + radius , (HEIGHT- 2*y) - radius, radius, 0, 2*Math.PI, true);
+        canvasCtx.fill();
+
+        // Drawing Rect
+        canvasCtx.fillRect(
+          x,
+          (HEIGHT- 2*y) - radius ,
+          WIDTH / BAR_NUM,
+          2*y
+        );
+
+        // Set Next Bar X position
+        x += WIDTH / BAR_NUM + 1;
+      }
+
+      canvasCtx.stroke();
+    }
+    return {
+      init,
+      draw,
+    };
+  })(dataArray);
+
+  mainCanvas.init();
+
+  document.getElementById('start').addEventListener('click', () => {
+    audio.play();
+    mainCanvas.draw();
+  });
+
+  document.getElementById('pause').addEventListener('click', () => {
+    audio.pause();
+  });
+});
