@@ -5,8 +5,10 @@
 }
 
 .audio-container {
+  width: 57%;
   display: flex;
   margin-top: 50px;
+  justify-content: space-around;
 }
 
 .file-box label {

@@ -5,6 +5,7 @@ const FFTSIZE = 1024;
 const blob = window.URL || window.webkitURL;
 let audio;
 let file = document.getElementById('exfile');
+let color = document.getElementById('color');
 let ctx,
   analyser,
   dataArray,
@@ -30,6 +31,12 @@ file.onchange = function () {
   draw();
 };
 
+color.onchange = function () {
+  const rgb = getRGB(this.value);
+
+  canvasCtx.fillStyle = rgb;
+}
+
 function init() {
   audio = document.getElementById('audio');
 
@@ -50,16 +57,16 @@ function init() {
   // Get Element & Access Context
   canvas = document.getElementById('canvas');
   canvasCtx = canvas.getContext('2d');
+
+  canvasCtx.fillStyle = 'rgb(255, 159, 67)';
 }
 
 function draw() {
-  // setTimeout(function () {
-  // }, 1000 / fps);
   analyser.getByteFrequencyData(dataArray);
 
   canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
-  // Bar Width, Height, Color
+  // Bar x, y, position 
   let x = 0;
   let y = 0;
   const radius = WIDTH / (2 * BAR_NUM);
@@ -76,7 +83,6 @@ function draw() {
 
     // Drawing Arc
     canvasCtx.beginPath();
-    canvasCtx.fillStyle = 'rgb(255, 159, 67)';
     canvasCtx.arc(x + radius, HEIGHT - radius, radius, 0, 2 * Math.PI, true);
     if (y !== 0) {
       canvasCtx.arc(
@@ -93,4 +99,11 @@ function draw() {
     x += WIDTH / BAR_NUM + 5;
   }
   requestAnimationFrame(draw);
+}
+
+function getRGB(hex) {
+  let rgb = hex.match(/[A-Za-z0-9]{2}/g);
+  rgb = rgb.map((v) => parseInt(v, 16));
+
+  return `rgb(${rgb.join(',')})`;
 }
