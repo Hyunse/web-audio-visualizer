@@ -1,0 +1,33 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.audio-container {
+  display: flex;
+  margin-top: 50px;
+}
+
+.file-box label {
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  color: white;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #54a0ff;
+  cursor: pointer;
+  border: 1px solid #54a0ff;
+  border-bottom-color: #54a0ff;
+  border-radius: 0.25em;
+}
+
+#exfile {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

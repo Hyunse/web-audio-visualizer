@@ -1,10 +1,10 @@
 const WIDTH = 1024;
-const HEIGHT = 350;
+const HEIGHT = 500;
 const BAR_NUM = 64;
 const FFTSIZE = 1024;
 const blob = window.URL || window.webkitURL;
 let audio;
-let file = document.getElementById('file');
+let file = document.getElementById('exfile');
 let ctx,
   analyser,
   dataArray,
@@ -14,7 +14,6 @@ let ctx,
   canvas,
   canvasCtx,
   canvasCtxBottom;
-// let fps = 500;
 
 file.onchange = function () {
   audio = document.getElementById('audio');
@@ -66,7 +65,7 @@ function draw() {
   const radius = WIDTH / (2 * BAR_NUM);
 
   for (let i = 0; i < bufferLength; i++) {
-    y = (dataArray[i] - 128) * 2 + 5;
+    y = (dataArray[i]-128) * 2;
 
     if (y <= 1) {
       y = 0;
