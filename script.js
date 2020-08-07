@@ -35,7 +35,7 @@ color.onchange = function () {
   const rgb = getRGB(this.value);
 
   canvasCtx.fillStyle = rgb;
-}
+};
 
 function init() {
   audio = document.getElementById('audio');
@@ -62,43 +62,35 @@ function init() {
 }
 
 function draw() {
+  requestAnimationFrame(draw);
+
   analyser.getByteFrequencyData(dataArray);
 
   canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
-  // Bar x, y, position 
+  // Bar x, y, position
   let x = 0;
   let y = 0;
   const radius = WIDTH / (2 * BAR_NUM);
 
   for (let i = 0; i < bufferLength; i++) {
-    y = (dataArray[i]-128) * 2;
+    y = (dataArray[i] - 128) * 2;
 
-    if (y <= 1) {
-      y = 0;
-    }
-
+    if (y <= 1) y = 0;
+    
     // Drawing Rect
     canvasCtx.fillRect(x, HEIGHT - y - radius, WIDTH / BAR_NUM, y);
 
-    // Drawing Arc
+    // // Drawing Arc
     canvasCtx.beginPath();
-    canvasCtx.arc(x + radius, HEIGHT - radius, radius, 0, 2 * Math.PI, true);
-    if (y !== 0) {
-      canvasCtx.arc(
-        x + radius,
-        HEIGHT - y - radius,
-        radius,
-        0,
-        2 * Math.PI,
-        true
-      );
-    }
+    canvasCtx.arc(x + radius, HEIGHT - radius, radius, 0, Math.PI, false);
+    canvasCtx.arc(x + radius, HEIGHT - y - radius, radius, 0, Math.PI, true);
+    canvasCtx.closePath();
     canvasCtx.fill();
+
     // Set Next Bar X position
     x += WIDTH / BAR_NUM + 5;
   }
-  requestAnimationFrame(draw);
 }
 
 function getRGB(hex) {
