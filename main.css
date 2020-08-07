@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
 html,
 body {
   height: 100%;
@@ -7,12 +9,12 @@ body {
   left: 0;
   top: 0;
   font-size: 100%;
+  font-family: 'Open Sans', sans-serif;
 }
-
 
 .main-container {
   width: 100%;
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,10 +23,11 @@ body {
 }
 
 .audio-container {
-  width: 57%;
+  width: 100%;
+  height: 10%;
   display: flex;
-  margin-top: 50px;
   justify-content: space-around;
+  align-items: center;
 }
 
 .file-box label {
@@ -48,4 +51,65 @@ body {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.color-container {
+  display:flex;
+  font-weight: 500;
+  align-items: center;
+}
+.color-container > p {
+  margin-right: 20px;
+  font-weight: 700;
+}
+
+.color-container > div {
+  display: flex;
+  align-items: center;
+}
+
+.color-container > div + div {
+  margin-left: 15px;
+}
+
+.color-box {
+  position: relative;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border: solid 2px #ddd;
+  border-radius: 40px;
+  margin-left: 10px;
+}
+
+input[name="color"] {
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  width: 56px;
+  height: 56px;
+  border: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+  .audio-container {
+    height: 30%;
+    flex-direction: column;
+  }
+
+  .main-container {
+    height: 70vh;
+    justify-content: flex-start;
+  }
+
+  #canvas {
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #canvas {
+    width: 400px;
+  }
 }

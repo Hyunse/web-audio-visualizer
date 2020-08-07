@@ -8,19 +8,33 @@
     <title>Music Visualization</title>
   </head>
   <body onload="init()">
+    <div class="audio-container">
+      <div>
+        <audio id="audio" type="audio/mp3" controls></audio>
+      </div>
+      <div class="file-box">
+        <label for="exfile">Upload & Play Music</label>
+        <input type="file" id="exfile"  accept="Audio/*" capture></input>
+      </div>
+      <div class="color-container">
+        <p>Dynamic Color</p>
+        <div>
+          <label for="color">Color:</label>
+          <div class="color-box">
+            <input type="color" id="color" name="color" value="#ff9f43"/>
+          </div>
+        </div>
+        <div>
+          <label for="bg-color">Background:</label>
+          <div class="color-box">
+            <input type="color" id="bg-color" name="color" value="#34314c"/>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="main-container">
       <div class="canvas-container">
         <canvas id="canvas" width="1024" height="500"></canvas>
-      </div>
-      <div class="audio-container">
-        <audio id="audio" type="audio/mp3" controls></audio>
-        <div class="file-box">
-          <label for="exfile">Upload & Play Music</label>
-          <input type="file" id="exfile"  accept="Audio/*" capture></input>
-        </div>
-        <div class="color-box">
-          <input type="color" id="color" value="#ff9f43"/>
-        </div>
       </div>
     </div>
     <script type="text/javascript" src="./script.js"></script>

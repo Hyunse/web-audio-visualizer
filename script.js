@@ -6,6 +6,7 @@ const blob = window.URL || window.webkitURL;
 let audio;
 let file = document.getElementById('exfile');
 let color = document.getElementById('color');
+let bgColor = document.getElementById('bg-color');
 let ctx,
   analyser,
   dataArray,
@@ -35,6 +36,12 @@ color.onchange = function () {
   const rgb = getRGB(this.value);
 
   canvasCtx.fillStyle = rgb;
+};
+
+bgColor.onchange = function () {
+  const rgb = getRGB(this.value);
+
+  document.getElementsByClassName('main-container')[0].style.backgroundColor = rgb;
 };
 
 function init() {
