@@ -15,7 +15,8 @@ let ctx,
   mainCanvas,
   canvas,
   canvasCtx,
-  canvasCtxBottom;
+  canvasCtxBottom,
+  rgb = [71, 184, 224];
 
 file.onchange = function () {
   audio = document.getElementById('audio');
@@ -33,15 +34,15 @@ file.onchange = function () {
 };
 
 color.onchange = function () {
-  const rgb = getRGB(this.value);
-
-  canvasCtx.fillStyle = rgb;
+  rgb = getRGB(this.value);
 };
 
 bgColor.onchange = function () {
   const rgb = getRGB(this.value);
 
-  document.getElementsByClassName('main-container')[0].style.backgroundColor = rgb;
+  document.getElementsByClassName(
+    'main-container'
+  )[0].style.backgroundColor = `rgb(${rgb.join(',')})`;
 };
 
 function init() {
@@ -65,7 +66,7 @@ function init() {
   canvas = document.getElementById('canvas');
   canvasCtx = canvas.getContext('2d');
 
-  canvasCtx.fillStyle = 'rgb(255, 159, 67)';
+  canvasCtx.fillStyle = 'rgb(71, 184, 224)';
 }
 
 function draw() {
@@ -81,14 +82,24 @@ function draw() {
   const radius = WIDTH / (2 * BAR_NUM);
 
   for (let i = 0; i < bufferLength; i++) {
-    y = (dataArray[i] - 128) * 2;
+    y = (dataArray[i] - 128) * 2 + 50;
 
-    if (y <= 1) y = 0;
-    
+    if (y <= 1) {
+      y = 0;
+    }
+
     // Drawing Rect
+    canvasCtx.fillStyle =
+      'rgb(' +
+      (y - 150 + rgb[0]) +
+      ',' +
+      (y - 150 + rgb[1]) +
+      ',' +
+      (y - 150 + rgb[2]) +
+      ')';
     canvasCtx.fillRect(x, HEIGHT - y - radius, WIDTH / BAR_NUM, y);
 
-    // // Drawing Arc
+    // Drawing Arc
     canvasCtx.beginPath();
     canvasCtx.arc(x + radius, HEIGHT - radius, radius, 0, Math.PI, false);
     canvasCtx.arc(x + radius, HEIGHT - y - radius, radius, 0, Math.PI, true);
@@ -104,5 +115,5 @@ function getRGB(hex) {
   let rgb = hex.match(/[A-Za-z0-9]{2}/g);
   rgb = rgb.map((v) => parseInt(v, 16));
 
-  return `rgb(${rgb.join(',')})`;
+  return rgb;
 }

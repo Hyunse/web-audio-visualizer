@@ -11,3 +11,8 @@ This project is **deployed** at: https://hyunse.github.io/web-audio-visualizer/i
 - AudioContext
 
 **Contributors:** [Hyunse Kim](https://github.com/Hyunse)
+
+
+# Demo
+
+![demo](./demo.gif)

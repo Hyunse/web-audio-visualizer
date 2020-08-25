@@ -19,7 +19,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #34314c;
+  background-color: #000000;
 }
 
 .audio-container {
@@ -100,7 +100,6 @@ input[name="color"] {
 
   .main-container {
     height: 70vh;
-    justify-content: flex-start;
   }
 
   #canvas {
@@ -110,6 +109,6 @@ input[name="color"] {
 
 @media screen and (max-width: 700px) {
   #canvas {
-    width: 400px;
+    width: 350px;
   }
 }
