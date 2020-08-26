@@ -12,6 +12,7 @@ This project is **deployed** at: https://hyunse.github.io/web-audio-visualizer/i
 
 **Contributors:** [Hyunse Kim](https://github.com/Hyunse)
 
+---
 
 # Demo
 
